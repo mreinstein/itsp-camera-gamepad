@@ -16,7 +16,7 @@ const currRCamOffset = [ 0, 0 ] // this is the amount of offset we will put on t
 
 // we want to move the right stick influence smoothly and accurately, so we are keeping track of the last 100 frames of right stick input.
 // this way if the player quickly fires a shot in a different direction, we don't swing the camera around wildly.
-const numSticks = 100 // the amount of frames we are going to keep track of
+const numSticks = 50 // the amount of frames we are going to keep track of
 const averageSticks = new Array(numSticks)
 
 const totalSticks = [ 0, 0 ] // the total amount of stick input used for making the average
@@ -31,7 +31,8 @@ for (let i = 0; i < numSticks; i++)
 
 const lStickCameraInfluence = 1 // we are going to move the camera based of the velocity of the camera target
 
-// TODO: figure out why multiplying right stick camera influence by 24 causes the aim stick to match the velocity stick
+// TODO: why does multiplying right stick camera influence by 24 cause the aim influence to work correctly?
+//       without this scaling, aiming influence doesn't seem to work
 const rStickCameraInfluence = 6 * 24  // we need to weight the amount we use for right stick influence vs velocity influence
 const toSmartCamZoomSpeed = 0.35 // this is how fast the camera will change it's zoom
 const cameraMoveSpeed = 0.05 // this is the base speed that the camera will use to move to it's desired position
@@ -51,7 +52,6 @@ export default function updateSmartCamera () {
     // retrieve the inputs from the camera target
     const { lStickX, lStickY, rStickX, rStickY } = currCameraTarget
 
-    
     // initialize the destination variables
     const desiredStickPosition = currCameraTarget.getPosition()
     const dummyCamPos = dummyCameraTarget.getPosition()
@@ -106,7 +106,6 @@ export default function updateSmartCamera () {
         }
     }
     
-    
     // If we have a cinematic camera set, we want to return smart camera control smoothly.  We will interpolate from the cinematic camera 
     // to the smart camera.  A cameraSmoothedVal of 1 means the smart camera has complete control.
     let cameraSmoothedVal = 1
@@ -122,8 +121,6 @@ export default function updateSmartCamera () {
         cameraZoomSmoothedVal = UtilLib.easeIn(toSmartCameraZoomInterpolant)
     end
     */
-    
-
     
     // if there are any points of interest, we need to find the desired zoom level.
     if (poiCount > 0) {
@@ -254,7 +251,6 @@ export default function updateSmartCamera () {
     ctx.strokeStyle = '#000'
     ctx.stroke()
 
-    
     // where the left stick is currently pointing
     radius = 10
     ctx.beginPath()
@@ -270,7 +266,6 @@ export default function updateSmartCamera () {
     ctx.closePath()
     ctx.strokeStyle = '#f00'
     ctx.stroke()
-
 
     if (pointOfInterestPos) {
         ctx.strokeStyle = `rgb(${Math.round(0.5 * 255)}, ${Math.round(0.4 * 255)}, ${Math.round(0.2 * 255)})`
@@ -295,7 +290,6 @@ export default function updateSmartCamera () {
         ctx.stroke()
     }
 
-    
     ctx.strokeStyle = '#0f0'
     ctx.strokeRect(
         newCamPos[0] + averageStick[0] - 3,
@@ -304,7 +298,6 @@ export default function updateSmartCamera () {
         6
     )
 
-    
     ctx.strokeStyle = 'rgb(128,128,0)'
     ctx.strokeRect(
         newCamPos[0] + currRCamOffset[0] - 3,
@@ -312,7 +305,6 @@ export default function updateSmartCamera () {
         6,
         6
     )
-    
 
     ctx.strokeStyle = '#ff0'
     ctx.strokeRect(
@@ -321,7 +313,6 @@ export default function updateSmartCamera () {
         24,
         24
     )
-
     
     ctx.strokeStyle = '#f00'
     ctx.strokeRect(

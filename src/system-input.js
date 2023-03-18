@@ -22,7 +22,7 @@ export default function inputSystem (world) {
 			globals.gamepad.rStickY = gp.axes[3]
 
 		} else {
-			// no gamepad found, 0 out input
+			// no gamepad found, zero-out stick values
 			globals.gamepad.lStickX = 0
 			globals.gamepad.lStickY = 0
 			globals.gamepad.rStickX = 0
