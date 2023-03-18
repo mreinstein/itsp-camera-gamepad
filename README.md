@@ -2,7 +2,7 @@
 
 Camera Controls from the game "Insanely Twisted Shadow Planet".
 
-Make sure you have a dual stick gamepad connected. The first button press on the gamepad will activate the controls.
+Make sure you have a dual stick gamepad connected. Engaging either gamepad stick will activate the controls.
 
 try it out https://itsp-camera-gamepad.vercel.app
 
