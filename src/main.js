@@ -10,6 +10,10 @@ import poiEntity     from './entity-poi.js'
 
 function main () {
     init()
+
+    // initialized, fade in
+    document.querySelector('.curtain').style.backgroundColor = 'transparent'
+
     requestAnimationFrame(gameLoop)
 }
 

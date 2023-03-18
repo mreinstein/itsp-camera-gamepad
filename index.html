@@ -39,6 +39,16 @@
           padding: 10px;
           border-radius: 4px;
         }
+
+        .curtain {
+          position: absolute;
+          inset-block-start: 0;
+          inset-inline-start: 0;
+          inline-size: 100vi;
+          block-size: 100vb;
+          background-color: black;
+          transition: background-color 0.8s ease;
+        }
     </style>
 </head>
 <body>
@@ -64,6 +74,8 @@
   </a>
 
   <script type="module" src="./src/main.js"></script>
+
+  <div class="curtain"></div>
 
 </body>
 </html>
