@@ -4,13 +4,10 @@ Camera Controls from the game "Insanely Twisted Shadow Planet".
 
 
 TODO
-* handle larger screens/letterboxing as needed
 * handle POI camera zoom
 * handle screen bounding rectangle
-* handle crisp retina displays
 * dat.gui for run-time config
 * put online somewhere
-
 
 
 ## running

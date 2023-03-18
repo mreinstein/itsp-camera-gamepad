@@ -37,7 +37,16 @@ function init () {
     heroEntity(world, [ 170, 210 ])
 
     //               pos            innerRadius  outerRadius
-    poiEntity(world, [ 450, 250 ],  80,          250)
+    poiEntity(world, [ 450, 250 ],  92,          512)
+
+    const resize = function () {
+        globals.canvas.width = window.innerWidth
+        globals.canvas.height = window.innerHeight
+        globals.canvas.style = `position: fixed; inset-inline-start: 0; inset-block-start: 0;`
+    }
+
+    window.addEventListener('resize', resize)
+    resize()
 }
 
 

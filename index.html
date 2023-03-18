@@ -16,24 +16,46 @@
         }
 
         a {
+          filter: invert(1);
           display: block;
           position: absolute;
-          inset-inline-start: 0px;
+          inset-inline-end: 0px;
           inset-block-end: 0px;
           padding: 16px;
+        }
+
+        h1 {
+          margin-block-start: 0px;
+        }
+
+        aside {
+          position: absolute;
+          inset-block-start: 0;
+          inset-inline-start: 0;
+          z-index: 1;
+          background-color: rgba(0,0,0, 0.1);
+          color: white;
+          font-size: 12px;
+          padding: 10px;
+          border-radius: 4px;
         }
     </style>
 </head>
 <body>
 
-  <h1>Insanely Twisted Shadow Planet Camera Controls</h1>
+  <aside>
+    <h1>Insanely Twisted Shadow Planet Camera Controls</h1>
 
+    <p>Open this page in a modern web browser.</p>
 
-  <p>Open this page in a modern web browser.</p>
+    <p>Make sure you have a dual stick gamepad connected. Engaging either gamepad stick will activate the controls.</p>
 
-  <p>Make sure you have a dual stick gamepad connected. Engaging either gamepad stick will activate the controls.</p>
-
-  <p>Left stick moves, right stick aims.</p>
+    <p>
+      <strong>
+        <span style="color: #ff0">Left stick</span> moves, <span style="color: red;">right stick</span> aims.
+      </strong>
+    </p>
+  </aside>
   
   <canvas width="480" height="270"></canvas>
 
