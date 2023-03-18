@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Insanely Twisted Shadow Planet Camera Controls</title>
+    <style>
+        body {
+          font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+          margin: 0px 60px;
+        }
+
+        canvas {
+          background: linear-gradient(45deg, rgb(86 160 255) 0%, rgb(21, 64, 139) 100%);
+          image-rendering: pixelated;
+        }
+
+        a {
+          display: block;
+          position: absolute;
+          inset-inline-start: 0px;
+          inset-block-end: 0px;
+          padding: 16px;
+        }
+    </style>
+</head>
+<body>
+
+  <h1>Insanely Twisted Shadow Planet Camera Controls</h1>
+
+
+  <p>Open this page in a modern web browser.</p>
+
+  <p>Make sure you have a dual stick gamepad connected. Engaging either gamepad stick will activate the controls.</p>
+
+  <p>Left stick moves, right stick aims.</p>
+  
+  <canvas width="480" height="270"></canvas>
+
+  <a href="https://github.com/mreinstein/itsp-camera-gamepad" target="_itsp">
+    <img src="GitHub-Mark-32px.png" alt="github octocat" class="github" width="16" height="16">
+  </a>
+
+  <script type="module" src="./src/main.js"></script>
+
+</body>
+</html>
