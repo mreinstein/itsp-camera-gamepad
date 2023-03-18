@@ -10,7 +10,6 @@ try it out https://itsp-camera-gamepad.vercel.app
 TODO
 * handle POI camera zoom
 * handle screen bounding rectangle
-* dat.gui for run-time config
 
 
 ## references

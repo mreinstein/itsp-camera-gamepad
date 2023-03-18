@@ -5,9 +5,11 @@ import { vec2 } from './deps.js'
 
 export default {
 	camera: {
-		position: vec2.create(),  // whatever this is set to will be the center point of the screen
+		position: vec2.create(),   // whatever this is set to will be the center point of the screen
 		zoom: 1,
-		useRightStickOffset: true // whether to use the right stick for aim or not
+		useRightStickOffset: true, // whether to use the right stick for aim or not
+		cameraMoveSpeed: 0.05,     // base speed that the camera will use to move to it's desired position
+		toPlayerInputSpeed: 0.075  // we want to move the camera a little faster to the player input position
 	},
 
 	// these are all of the globals exposed to the camera script
@@ -44,9 +46,9 @@ export default {
 }
 
 
-// this factory creates camera target objects, used exclusively in the updateCameraScript module.
-// It's probably too much abstraction, but I purposefully opted to replicate this here in order 
-// to minimize the changes needed to port his script.
+// this factory creates camera target objects, used exclusively in the updateSmartCamera module.
+// It's probably too much abstraction, but I purposefully opted to replicate this structure in order 
+// to minimize the changes needed to port the camera script from lua.
 function _makeCameraTarget (x=170, y=210) {
     const position = [ x, y ]
     const velocity = [ 0, 0 ]

@@ -1,7 +1,7 @@
 import componentAABB      from './component-aabb.js'
 import componentRigidBody from './component-rigid-body.js'
 import componentTransform from './component-transform.js'
-import { ECS, vec2 } from './deps.js'
+import { ECS, vec2 }      from './deps.js'
 
 
 export default function createHeroEntity (world, pos) {

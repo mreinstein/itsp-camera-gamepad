@@ -1,7 +1,7 @@
 import globals           from './globals.js'
 import updateSmartCamera from './update-smart-camera.js'
 import { smoothStep }    from './easings.js'
-import { ECS, vec2 }     from './deps.js'
+import { ECS, clamp, vec2 } from './deps.js'
 
 
 const { currCameraTarget } = globals.scriptEnv
@@ -39,12 +39,13 @@ export default function cameraSystem (world) {
 		             })
 		        }
 
-		        if (d <= entity.camera_poi.innerRadius) {
-		            currCameraTarget.pointsOfInterest[0].cameraInfluence = 0
-		        } else if (d <= entity.camera_poi.outerRadius) {
-		            const ringWidth = entity.camera_poi.outerRadius - entity.camera_poi.innerRadius
-		            currCameraTarget.pointsOfInterest[0].cameraInfluence = 1 - smoothStep((d - entity.camera_poi.innerRadius) / ringWidth)
-		        }
+		        const ringWidth = entity.camera_poi.outerRadius - entity.camera_poi.innerRadius
+		        //const influence = smoothStep((d - entity.camera_poi.innerRadius) / ringWidth)
+		        const influence = (d - entity.camera_poi.innerRadius) / ringWidth
+
+		        // TODO: should this be 1 - influence? when I set that though, the camera continues to move
+		        // even within the inner circle
+		        currCameraTarget.pointsOfInterest[0].cameraInfluence = clamp(influence, 0, 1)
 		        
 		    } else if (currCameraTarget.pointsOfInterest.length) {
 		        currCameraTarget.pointsOfInterest.length = 0
@@ -54,6 +55,7 @@ export default function cameraSystem (world) {
 		updateSmartCamera()
 
 		// at this point, dummyCameraTarget has been updated with the exact location to place the camera
+		// copy this position into the variable the renderer uses to translate
 		vec2.copy(globals.camera.position, globals.scriptEnv.dummyCameraTarget.getPosition())
 	}
 

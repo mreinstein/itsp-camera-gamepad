@@ -1,4 +1,5 @@
 import { ECS, vec2 } from './deps.js'
+import dat           from 'https://cdn.skypack.dev/pin/dat.gui@v0.7.9-2wtQAdFH5SRwnJLDWGNz/mode=imports,min/optimized/dat.gui.js'
 import globals       from './globals.js'
 import heroEntity    from './entity-hero.js'
 import cameraSystem  from './system-camera.js'
@@ -42,6 +43,14 @@ function init () {
 
     //               pos            innerRadius  outerRadius
     poiEntity(world, [ 450, 250 ],  92,          512)
+
+    const gui = new dat.GUI()
+    const _curr = gui.addFolder('camera')
+    _curr.add(globals.camera, 'cameraMoveSpeed', 0, 0.5)
+    _curr.add(globals.camera, 'toPlayerInputSpeed', 0, 0.5)
+    _curr.add(globals.camera, 'useRightStickOffset')
+    _curr.open()
+    gui.close()
 
     const resize = function () {
         globals.canvas.width = window.innerWidth

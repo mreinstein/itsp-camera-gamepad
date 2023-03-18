@@ -4,8 +4,8 @@ import { vec2 } from './deps.js'
 
 // this is a pretty close port from lua of Ryan's most excellent camera code for ITSP
 
-
 const { currCameraTarget, dummyCameraTarget, smartCameraTarget, rSmartCameraTarget } = globals.scriptEnv
+
 
 // when the camera target enters a point of interest, a certain amount of influence will be put on the
 // camera to go towards the point of interest instead of the camera target.
@@ -20,7 +20,6 @@ const numSticks = 50 // the amount of frames we are going to keep track of
 const averageSticks = new Array(numSticks)
 
 const totalSticks = [ 0, 0 ] // the total amount of stick input used for making the average
-//const lastStickHead = { x: 0, y: 0 } // we can just remove one stick, and add a new stick value
 const averageStick = [ 0, 0 ] // the average stick value used for calculating right stick camera offset
 let stickHead = 0 // instead of reordering an array, we will just overwrite what is currently the last indexed value
 
@@ -35,8 +34,7 @@ const lStickCameraInfluence = 1 // we are going to move the camera based of the 
 //       without this scaling, aiming influence doesn't seem to work
 const rStickCameraInfluence = 6 * 24  // we need to weight the amount we use for right stick influence vs velocity influence
 const toSmartCamZoomSpeed = 0.35 // this is how fast the camera will change it's zoom
-const cameraMoveSpeed = 0.05 // this is the base speed that the camera will use to move to it's desired position
-const toPlayerInputSpeed = 0.075  // we want to move the camera a little faster to the player input position
+
 
 // we can't let the camera target get off screen, this is the safe zone border we will be using in screen space
 const safeZoneX = 513 
@@ -44,6 +42,10 @@ const safeZoneY = 288
 
 
 export default function updateSmartCamera () {
+
+    //const cameraMoveSpeed = 0.05 // this is the base speed that the camera will use to move to it's desired position
+    //const toPlayerInputSpeed = 0.075  // we want to move the camera a little faster to the player input position
+    const { cameraMoveSpeed, toPlayerInputSpeed } = globals.camera
 
 	const targetVel = currCameraTarget.getVelocity()
     const targetPos = currCameraTarget.getPosition()
@@ -89,8 +91,8 @@ export default function updateSmartCamera () {
                 if (totalPointOfInterestInfluence == 0) {
                 	vec2.copy(avgCamPos, dummyCamPos)
                 } else {
-                    avgCamPos[0] = avgCamPos[0] + (newCamPos[0] * currPOI.cameraInfluence / totalPointOfInterestInfluence)
-                    avgCamPos[1] = avgCamPos[1] + (newCamPos[1] * currPOI.cameraInfluence / totalPointOfInterestInfluence)
+                    avgCamPos[0] += (newCamPos[0] * currPOI.cameraInfluence / totalPointOfInterestInfluence)
+                    avgCamPos[1] += (newCamPos[1] * currPOI.cameraInfluence / totalPointOfInterestInfluence)
                 }
                 
                 /*
@@ -140,6 +142,7 @@ export default function updateSmartCamera () {
     const toDesiredPOIpercentage = (pointOfInterestPercentage - currPointOfInterestPercentage) * cameraMoveSpeed
     currPointOfInterestPercentage = currPointOfInterestPercentage + toDesiredPOIpercentage
     pointOfInterestPercentage = currPointOfInterestPercentage
+
     
     // We have a desired velocity based offset, a desired right stick input offset, and a point of interest offset.
     // We will be moving the camera to the average of these influences.  The further the camera is from the desired target, the faster it will move. 
@@ -222,6 +225,9 @@ export default function updateSmartCamera () {
 
         dummyCamPos[0] = newX
         dummyCamPos[1] = newY
+
+        dummyCameraTarget.setPosition(newX, newY)
+        dummyCamPos = dummyCameraTarget.getPosition()
     }
     */
 
@@ -290,21 +296,23 @@ export default function updateSmartCamera () {
         ctx.stroke()
     }
 
+    
     ctx.strokeStyle = '#0f0'
     ctx.strokeRect(
-        newCamPos[0] + averageStick[0] - 3,
-        newCamPos[1] + averageStick[1] - 3,
+        newCamPos[0] + averageStick[0] * 30 - 3,
+        newCamPos[1] + averageStick[1] * 30 - 3,
         6,
         6
     )
 
     ctx.strokeStyle = 'rgb(128,128,0)'
     ctx.strokeRect(
-        newCamPos[0] + currRCamOffset[0] - 3,
-        newCamPos[1] + currRCamOffset[1] - 3,
+        newCamPos[0] + currRCamOffset[0] * 30 - 3,
+        newCamPos[1] + currRCamOffset[1] * 30 - 3,
         6,
         6
     )
+
 
     ctx.strokeStyle = '#ff0'
     ctx.strokeRect(

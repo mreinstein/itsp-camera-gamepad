@@ -1,5 +1,5 @@
 import componentTransform from './component-transform.js'
-import { ECS, vec2 } from './deps.js'
+import { ECS, vec2 }      from './deps.js'
 
 
 export default function createPointOfInterestEntity (world, pos, innerRadius=80, outerRadius=250) {
