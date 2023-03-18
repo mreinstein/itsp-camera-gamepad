@@ -231,104 +231,106 @@ export default function updateSmartCamera () {
     }
     */
 
-    const { canvas, ctx, camera } = globals
+    const { canvas, ctx, camera, cameraDebugDraw } = globals
 
-    // postion "dummy" camera
-    ctx.save()
-    ctx.scale(camera.zoom, camera.zoom)
-    ctx.translate(
-        -camera.position[0] + (canvas.width / camera.zoom / 2),
-        -camera.position[1] + (canvas.height / camera.zoom / 2)
-    )
-
-    ctx.strokeStyle = '#0ff'
-    ctx.strokeRect(
-        desiredStickPosition[0] - 3,
-        desiredStickPosition[1] - 3,
-        6,
-        6
-    )
-    
-    // where the ship is at
-    let radius = 30
-    ctx.beginPath()
-    ctx.arc(newCamPos[0], newCamPos[1], radius, 0, 2 * Math.PI, true)
-    ctx.closePath()
-    ctx.strokeStyle = '#000'
-    ctx.stroke()
-
-    // where the left stick is currently pointing
-    radius = 10
-    ctx.beginPath()
-    ctx.arc(newCamPos[0] + lStickX * 30,newCamPos[1] + lStickY * 30, radius, 0, 2 * Math.PI, true)
-    ctx.closePath()
-    ctx.strokeStyle = '#ff0'
-    ctx.stroke()
-
-    // where the right stick is currently pointing
-    radius = 10
-    ctx.beginPath()
-    ctx.arc(newCamPos[0] + rStickX * 30, newCamPos[1] + rStickY * 30, radius, 0, 2 * Math.PI, true)
-    ctx.closePath()
-    ctx.strokeStyle = '#f00'
-    ctx.stroke()
-
-    if (pointOfInterestPos) {
-        ctx.strokeStyle = `rgb(${Math.round(0.5 * 255)}, ${Math.round(0.4 * 255)}, ${Math.round(0.2 * 255)})`
-        ctx.strokeRect(
-            pointOfInterestPos[0] - 12,
-            pointOfInterestPos[1] - 12,
-            24,
-            24
+    if (cameraDebugDraw) {
+        // postion "dummy" camera
+        ctx.save()
+        ctx.scale(camera.zoom, camera.zoom)
+        ctx.translate(
+            -camera.position[0] + (canvas.width / camera.zoom / 2),
+            -camera.position[1] + (canvas.height / camera.zoom / 2)
         )
 
+        ctx.strokeStyle = '#0ff'
         ctx.strokeRect(
-            newCamPos[0] - 3,
-            newCamPos[1] - 3,
+            desiredStickPosition[0] - 3,
+            desiredStickPosition[1] - 3,
+            6,
+            6
+        )
+        
+        // where the ship is at
+        let radius = 30
+        ctx.beginPath()
+        ctx.arc(newCamPos[0], newCamPos[1], radius, 0, 2 * Math.PI, true)
+        ctx.closePath()
+        ctx.strokeStyle = '#000'
+        ctx.stroke()
+
+        // where the left stick is currently pointing
+        radius = 10
+        ctx.beginPath()
+        ctx.arc(newCamPos[0] + lStickX * 30,newCamPos[1] + lStickY * 30, radius, 0, 2 * Math.PI, true)
+        ctx.closePath()
+        ctx.strokeStyle = '#ff0'
+        ctx.stroke()
+
+        // where the right stick is currently pointing
+        radius = 10
+        ctx.beginPath()
+        ctx.arc(newCamPos[0] + rStickX * 30, newCamPos[1] + rStickY * 30, radius, 0, 2 * Math.PI, true)
+        ctx.closePath()
+        ctx.strokeStyle = '#f00'
+        ctx.stroke()
+
+        if (pointOfInterestPos) {
+            ctx.strokeStyle = `rgb(${Math.round(0.5 * 255)}, ${Math.round(0.4 * 255)}, ${Math.round(0.2 * 255)})`
+            ctx.strokeRect(
+                pointOfInterestPos[0] - 12,
+                pointOfInterestPos[1] - 12,
+                24,
+                24
+            )
+
+            ctx.strokeRect(
+                newCamPos[0] - 3,
+                newCamPos[1] - 3,
+                6,
+                6
+            )
+
+            ctx.strokeStyle = `rgb(${255 * 0.5}, ${255 * 0.4}, ${255 * 0.2})`
+            ctx.beginPath()
+            ctx.moveTo(newCamPos[0], newCamPos[1])
+            ctx.lineTo(pointOfInterestPos[0], pointOfInterestPos[1])
+            ctx.stroke()
+        }
+
+        
+        ctx.strokeStyle = '#0f0'
+        ctx.strokeRect(
+            newCamPos[0] + averageStick[0] * 30 - 3,
+            newCamPos[1] + averageStick[1] * 30 - 3,
             6,
             6
         )
 
-        ctx.strokeStyle = `rgb(${255 * 0.5}, ${255 * 0.4}, ${255 * 0.2})`
-        ctx.beginPath()
-        ctx.moveTo(newCamPos[0], newCamPos[1])
-        ctx.lineTo(pointOfInterestPos[0], pointOfInterestPos[1])
-        ctx.stroke()
+        ctx.strokeStyle = 'rgb(128,128,0)'
+        ctx.strokeRect(
+            newCamPos[0] + currRCamOffset[0] * 30 - 3,
+            newCamPos[1] + currRCamOffset[1] * 30 - 3,
+            6,
+            6
+        )
+
+
+        ctx.strokeStyle = '#ff0'
+        ctx.strokeRect(
+            smartCamPos[0] - 12,
+            smartCamPos[1]  - 12,
+            24,
+            24
+        )
+        
+        ctx.strokeStyle = '#f00'
+        ctx.strokeRect(
+            rSmartCamPos[0] - 12,
+            rSmartCamPos[1]  - 12,
+            24,
+            24
+        )
+
+        ctx.restore()
     }
-
-    
-    ctx.strokeStyle = '#0f0'
-    ctx.strokeRect(
-        newCamPos[0] + averageStick[0] * 30 - 3,
-        newCamPos[1] + averageStick[1] * 30 - 3,
-        6,
-        6
-    )
-
-    ctx.strokeStyle = 'rgb(128,128,0)'
-    ctx.strokeRect(
-        newCamPos[0] + currRCamOffset[0] * 30 - 3,
-        newCamPos[1] + currRCamOffset[1] * 30 - 3,
-        6,
-        6
-    )
-
-
-    ctx.strokeStyle = '#ff0'
-    ctx.strokeRect(
-        smartCamPos[0] - 12,
-        smartCamPos[1]  - 12,
-        24,
-        24
-    )
-    
-    ctx.strokeStyle = '#f00'
-    ctx.strokeRect(
-        rSmartCamPos[0] - 12,
-        rSmartCamPos[1]  - 12,
-        24,
-        24
-    )
-
-    ctx.restore()
 }

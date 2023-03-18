@@ -45,10 +45,12 @@ function init () {
     poiEntity(world, [ 450, 250 ],  92,          512)
 
     const gui = new dat.GUI()
+    gui.add(globals, 'cameraDebugDraw')
     const _curr = gui.addFolder('camera')
     _curr.add(globals.camera, 'cameraMoveSpeed', 0, 0.5)
     _curr.add(globals.camera, 'toPlayerInputSpeed', 0, 0.5)
     _curr.add(globals.camera, 'useRightStickOffset')
+
     _curr.open()
     gui.close()
 
