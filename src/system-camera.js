@@ -26,9 +26,9 @@ export default function cameraSystem (world) {
 	    for (const entity of ECS.getEntities(world, [ 'camera_poi' ])) { 
 		    const d = vec2.distance(entity.transform.position, hero.aabb.position)
 
-		    const iswithinRange = d <= entity.camera_poi.outerRadius
+		    const isWithinRange = d <= entity.camera_poi.outerRadius
 
-		    if (iswithinRange) {
+		    if (isWithinRange) {
 		        if (!currCameraTarget.pointsOfInterest.length) {
 		             currCameraTarget.pointsOfInterest.push({
 		                pos: vec2.clone(entity.transform.position),
