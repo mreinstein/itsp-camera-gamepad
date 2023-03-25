@@ -186,8 +186,8 @@ export default function updateSmartCamera () {
 
     // we will be moving the camera to a desired location, this is the movement on the x and y axis
     // the vector to the player input target plus the vector to the desired point of interest spot
-    const toNewPosX = ((desiredStickPosition[0] - dummyCamPos[0]) * toPlayerInputSpeed) * (pointOfInterestPercentage) + (newCamPos[0] - dummyCamPos[0]) * cameraMoveSpeed
-    const toNewPosY = ((desiredStickPosition[1] - dummyCamPos[1]) * toPlayerInputSpeed) * (pointOfInterestPercentage) + (newCamPos[1] - dummyCamPos[1]) * cameraMoveSpeed
+    const toNewPosX = ((desiredStickPosition[0] - dummyCamPos[0]) * toPlayerInputSpeed) * (1-pointOfInterestPercentage) + (newCamPos[0] - dummyCamPos[0]) * cameraMoveSpeed
+    const toNewPosY = ((desiredStickPosition[1] - dummyCamPos[1]) * toPlayerInputSpeed) * (1-pointOfInterestPercentage) + (newCamPos[1] - dummyCamPos[1]) * cameraMoveSpeed
 
     // move the camera
     dummyCameraTarget.setPosition(dummyCamPos[0] + toNewPosX * cameraSmoothedVal, dummyCamPos[1] + toNewPosY * cameraSmoothedVal)

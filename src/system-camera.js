@@ -40,12 +40,10 @@ export default function cameraSystem (world) {
 		        }
 
 		        const ringWidth = entity.camera_poi.outerRadius - entity.camera_poi.innerRadius
-		        //const influence = smoothStep((d - entity.camera_poi.innerRadius) / ringWidth)
-		        const influence = (d - entity.camera_poi.innerRadius) / ringWidth
+		        const influence = 1 - clamp((d - entity.camera_poi.innerRadius) / ringWidth, 0, 1)
 
-		        // TODO: should this be 1 - influence? when I set that though, the camera continues to move
-		        // even within the inner circle
-		        currCameraTarget.pointsOfInterest[0].cameraInfluence = clamp(influence, 0, 1)
+		        currCameraTarget.pointsOfInterest[0].cameraInfluence = smoothStep(influence)
+		        //currCameraTarget.pointsOfInterest[0].cameraInfluence = influence
 		        
 		    } else if (currCameraTarget.pointsOfInterest.length) {
 		        currCameraTarget.pointsOfInterest.length = 0
