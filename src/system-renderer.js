@@ -3,6 +3,7 @@ import { ECS } from './deps.js'
 
 
 const HERO_ENTITY_QUERY = [ 'hero' ]
+const CAMERA_POI_QUERY = [ 'camera_poi' ]
 
 
 // draw stuff to the screen every frame
@@ -38,7 +39,7 @@ export default function rendererSystem (world) {
         if (globals.cameraDebugDraw) {   
             ctx.strokeStyle = '#333'
 
-            for (const entity of ECS.getEntities(world, [ 'camera_poi' ])) {    
+            for (const entity of ECS.getEntities(world, CAMERA_POI_QUERY)) {    
                 ctx.setLineDash([12, 8])
                 ctx.beginPath()
                 ctx.arc(entity.transform.position[0], entity.transform.position[1], entity.camera_poi.innerRadius, 0, 2 * Math.PI, true)

@@ -1,9 +1,6 @@
 import globals from './globals.js'
 
 
-const span = document.querySelector('.gamepad-state > span')
-console.log(span)
-
 // handle gamepad detection and input to control the hero
 export default function inputSystem (world) {
     // @param Number dt milliseconds elapsed since last update frame
@@ -24,7 +21,8 @@ export default function inputSystem (world) {
             globals.gamepad.rStickX = gp.axes[2]
             globals.gamepad.rStickY = gp.axes[3]
 
-            span.classList.remove('disconnected')
+
+            globals.gamepad.statusDomElm.classList.remove('disconnected')
 
         } else {
             // no gamepad found, zero-out stick values
@@ -33,7 +31,7 @@ export default function inputSystem (world) {
             globals.gamepad.rStickX = 0
             globals.gamepad.rStickY = 0
 
-            span.classList.add('disconnected')
+            globals.gamepad.statusDomElm.classList.add('disconnected')
         }
     }
 

@@ -3,7 +3,7 @@ import globals             from './globals.js'
 import { clamp, ECS, vec2} from './deps.js'
 
 
-const RIGIDBODY = [ 'rigidBody' ]
+const RIGIDBODY_QUERY = [ 'rigidBody' ]
 
 
 export default function rigidBodySystem (world) {
@@ -19,7 +19,7 @@ export default function rigidBodySystem (world) {
 
         dt = dt / 1000 // convert ms to seconds
 
-        for (const entity of ECS.getEntities(world, RIGIDBODY)) {
+        for (const entity of ECS.getEntities(world, RIGIDBODY_QUERY)) {
 
             const dx = _stepX(entity, dt)
             const dy = _stepY(entity, dt)

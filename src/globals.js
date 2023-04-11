@@ -30,7 +30,8 @@ export default {
 		lStickX: 0,
 		lStickY: 0,
 		rStickX: 0,
-		rStickY: 0
+		rStickY: 0,
+		statusDomElm: document.querySelector('.gamepad-state > span'),
 	},
 	
 	cameraDebugDraw: true,

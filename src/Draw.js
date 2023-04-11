@@ -1,6 +1,17 @@
 import { round } from './deps.js'
 
 
+export function box (context, pos, width, height, color='#fff') {
+    context.strokeStyle = color
+    context.strokeRect(
+        round(pos[0] - length / 2),
+        round(pos[1] - length / 2),
+        width,
+        height
+    )
+}
+
+
 export function square (context, pos, length, color='#fff') {
     context.strokeStyle = color
     context.strokeRect(

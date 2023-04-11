@@ -28,19 +28,13 @@ let stickHead = 0 // instead of reordering an array, we will just overwrite what
 for (let i = 0; i < numSticks; i++)
     averageSticks[i] = [ 0, 0 ]
 
-
 const lStickCameraInfluence = 1 // we are going to move the camera based of the velocity of the camera target
 
 // in Ryan's original script rStickCameraInfluence was set to 6.
 // this doesn't work in this particular implementation. I think it's due to this implementing it's own velocity/physics differently
-// from however ITSP does it. multiplying by 24 feels a lot better.
-const rStickCameraInfluence = 6 * 24  // we need to weight the amount we use for right stick influence vs velocity influence
+// from however ITSP does it. multiplying by 14 feels a lot better.
+const rStickCameraInfluence = 6 * 14  // we need to weight the amount we use for right stick influence vs velocity influence
 const toSmartCamZoomSpeed = 0.35 // this is how fast the camera will change it's zoom
-
-
-// we can't let the camera target get off screen, this is the safe zone border we will be using in screen space
-const safeZoneX = 513 
-const safeZoneY = 288 
 
 
 export default function updateSmartCamera () {
@@ -200,21 +194,25 @@ export default function updateSmartCamera () {
     // move the camera
     dummyCameraTarget.setPosition(dummyCamPos[0] + toNewPosX * cameraSmoothedVal, dummyCamPos[1] + toNewPosY * cameraSmoothedVal)
 
-    /*
+    
     // if we are already returned to the smart camera, then check to see if we are within acceptable bounds, the "safe zone" of the screen.
-    if (toSmartCameraInterpolant >= 1) { 
-
-        const movedCamPos = dummyCamPos
-
+    {
+    //if (toSmartCameraInterpolant >= 1) { 
         // let's do a border check here... if the ship has crossed the border we need to force camera movement.
-        let newX = movedCamPos[0]
-        let newY = movedCamPos[1]
+        let [ newX, newY ] = dummyCameraTarget.getPosition()
         const targetPos = currCameraTarget.getPosition()
 
-        let centerX, centerY = GameLib.screenToWorld( 0, 0 )
-        let maxWorldDeltaX, maxWorldDeltaY = GameLib.screenToWorld( safeZoneX, safeZoneY ) // extents of the 'safe zone'
-        maxWorldDeltaX = math.abs(maxWorldDeltaX - centerX)
-        maxWorldDeltaY = math.abs(maxWorldDeltaY - centerY)
+        let [ centerX, centerY ] = screenToWorld(globals.canvas, globals.camera, 0, 0)
+        
+        // we can't let the camera target get off screen, this is the safe zone border we will be using in screen space
+        // dynamic safezone: takes up 60% of the center of the window, with a 20% margin around all 4 edges
+        // old 513x288 value assumes fixed screen size 1280x720
+        const safeZoneX = globals.canvas.width  * 0.3
+        const safeZoneY = globals.canvas.height * 0.3
+
+        let [ maxWorldDeltaX, maxWorldDeltaY ] = screenToWorld(globals.canvas, globals.camera, safeZoneX, safeZoneY) // extents of the 'safe zone'
+        maxWorldDeltaX = Math.abs(maxWorldDeltaX - centerX)
+        maxWorldDeltaY = Math.abs(maxWorldDeltaY - centerY)
 
         const worldDistY = newY - targetPos[1]
         const worldDistX = newX - targetPos[0]
@@ -230,15 +228,12 @@ export default function updateSmartCamera () {
             newX = targetPos[0] - maxWorldDeltaX
 
         if (worldDistX > maxWorldDeltaX)
-           newX = targetPos[0] + maxWorldDeltaX
-
-        dummyCamPos[0] = newX
-        dummyCamPos[1] = newY
+            newX = targetPos[0] + maxWorldDeltaX
 
         dummyCameraTarget.setPosition(newX, newY)
-        dummyCamPos = dummyCameraTarget.getPosition()
+    //}
     }
-    */
+    
 
     const { canvas, ctx, camera, cameraDebugDraw } = globals
 
@@ -278,5 +273,21 @@ export default function updateSmartCamera () {
         Draw.square(ctx, rSmartCamPos, 24, '#f00')
 
         ctx.restore()
+
+        // dynamic safezone: takes up 60% of the center of the window, with a 20% margin around all 4 edges
+        const left = Math.round(canvas.width * 0.2)
+        const top = Math.round(canvas.height * 0.2)
+        const width = Math.round(canvas.width * 0.6)
+        const height = Math.round(canvas.height * 0.6)
+        Draw.box(ctx, [ left, top ], width, height, '#e00')
     }
+}
+
+
+// convert screen coords to world coords, where 0,0 is the center of the screen
+function screenToWorld (canvas, camera, x, y) {
+    return [
+        camera.position[0] + (canvas.width / camera.zoom / 2)  + (x / camera.zoom),
+        camera.position[1] + (canvas.height / camera.zoom / 2) + (y / camera.zoom)
+    ]
 }
