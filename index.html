@@ -51,6 +51,33 @@
           transition: background-color 0.8s ease;
           pointer-events: none;
         }
+
+        .gamepad-state {
+          position: absolute;
+          inset-inline-start: 0px;
+          inset-block-end: 0px;
+          background-color: rgba(0,0,0, 0.35);
+          padding: 10px;
+          color: white;
+          font-weight: bold;
+          font-size: 12px;
+          border-radius: 2px;
+        }
+
+        .gamepad-state > span {
+          color: #02e302;
+          
+          transition: 0.3s color ease;
+        }
+
+        .gamepad-state > span.disconnected {
+          color: red;
+        }
+
+        .gamepad-state > span.disconnected:before {
+          content: 'dis';
+        }
+
     </style>
 </head>
 <body>
@@ -67,6 +94,7 @@
         <span style="color: #ff0">Left stick</span> moves, <span style="color: red;">right stick</span> aims.
       </strong>
     </p>
+
   </aside>
   
   <canvas width="480" height="270"></canvas>
@@ -76,6 +104,8 @@
   </a>
 
   <script type="module" src="./src/main.js"></script>
+
+  <div class="gamepad-state">gamepad <span class="disconnected">connected</span> </div>
 
   <div class="curtain"></div>
 
