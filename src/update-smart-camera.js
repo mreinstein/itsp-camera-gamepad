@@ -1,6 +1,6 @@
-import * as Draw from './Draw.js'
-import globals   from './globals.js'
-import { vec2 }  from './deps.js'
+import * as Draw      from './Draw.js'
+import globals        from './globals.js'
+import { lerp, vec2 } from './deps.js'
 
 
 // this is a pretty close port from lua of Ryan's most excellent camera code for ITSP
@@ -96,14 +96,15 @@ export default function updateSmartCamera () {
                     avgCamPos[1] += (newCamPos[1] * currPOI.cameraInfluence / totalPointOfInterestInfluence)
                 }
                 
-                /*
                 // We will start with the ambient zoom, and get an average of points of interest zooms
                 // if the poi doesn't have a zoom set it should use the current zoom.  A zoom value of -1 means it is not set.
                 if (currPOI.targetZoom === -1)
-                    currentPOIZoom += CameraLib.newZoom
-                else
-                    currentPOIZoom += currPOI.percentageZoom
-                */
+                    currentPOIZoom += globals.camera.zoom
+                else {
+                    const amt = lerp(globals.camera.ambientZoom, currPOI.targetZoom, currPOI.cameraInfluence)
+                    currentPOIZoom += amt //(currPOI.targetZoom)// * currPOI.cameraInfluence) //currPOI.percentageZoom
+                }
+
                 poiCount++
             }
         }
@@ -112,6 +113,7 @@ export default function updateSmartCamera () {
     // If we have a cinematic camera set, we want to return smart camera control smoothly.  We will interpolate from the cinematic camera 
     // to the smart camera.  A cameraSmoothedVal of 1 means the smart camera has complete control.
     let cameraSmoothedVal = 1
+    let cameraZoomSmoothedVal = 1
     /*
     if(toSmartCameraInterpolant < 1) then
         toSmartCameraInterpolant = toSmartCameraInterpolant + toSmartCameraSpeed
@@ -130,14 +132,19 @@ export default function updateSmartCamera () {
     	vec2.copy(newCamPos, avgCamPos)
         pointOfInterestPercentage = totalPointOfInterestInfluence / poiCount
         currentPOIZoom = currentPOIZoom / (poiCount)
-        /*CameraLib.interpolateCameraZoom(currentPOIZoom,toSmartCamZoomSpeed * cameraZoomSmoothedVal)*/
-    }/* else {
+        //CameraLib.interpolateCameraZoom(currentPOIZoom, toSmartCamZoomSpeed * cameraZoomSmoothedVal)
+        globals.camera.zoom = lerp(globals.camera.zoom, currentPOIZoom, toSmartCamZoomSpeed * cameraZoomSmoothedVal)
+
+    } else {
         // if we are leaving a point of interest, or the camera target has hit a zoom trigger, we need to approach that new zoom level
         // using an ease function.
-        if (UtilLib.withinThreshold( getCameraZoom(),CameraLib.ambientZoom,0.1) == false)
-            CameraLib.interpolateCameraZoom(CameraLib.newZoom,toSmartCamZoomSpeed* cameraZoomSmoothedVal) // if no POI's go to the ambient zoom
-    }*/
-    
+        //if (UtilLib.withinThreshold( getCameraZoom(),CameraLib.ambientZoom,0.1) == false)
+        //    CameraLib.interpolateCameraZoom(CameraLib.newZoom,toSmartCamZoomSpeed* cameraZoomSmoothedVal) // if no POI's go to the ambient zoom
+
+        if (Math.abs(globals.camera.zoom - globals.camera.ambientZoom) > 0.01) {
+            globals.camera.zoom = lerp(globals.camera.zoom, globals.camera.ambientZoom, toSmartCamZoomSpeed * cameraZoomSmoothedVal)
+        }
+    }
     
     // this is how we slowly move to the point of interest position, instead of snapping immediately to it.
     const toDesiredPOIpercentage = (pointOfInterestPercentage - currPointOfInterestPercentage) * cameraMoveSpeed

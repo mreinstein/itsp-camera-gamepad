@@ -8,7 +8,6 @@ try it out https://itsp-camera-gamepad.vercel.app
 
 
 TODO
-* handle POI camera zoom
 * handle screen bounding rectangle
 
 

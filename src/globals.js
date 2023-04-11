@@ -6,10 +6,11 @@ import { vec2 } from './deps.js'
 export default {
 	camera: {
 		position: vec2.create(),   // whatever this is set to will be the center point of the screen
+		ambientZoom: 1,
 		zoom: 1,
 		useRightStickOffset: true, // whether to use the right stick for aim or not
 		cameraMoveSpeed: 0.05,     // base speed that the camera will use to move to it's desired position
-		toPlayerInputSpeed: 0.075  // we want to move the camera a little faster to the player input position
+		toPlayerInputSpeed: 0.075,  // we want to move the camera a little faster to the player input position
 	},
 
 	// these are all of the globals exposed to the camera script

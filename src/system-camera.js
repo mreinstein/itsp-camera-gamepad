@@ -34,8 +34,8 @@ export default function cameraSystem (world) {
 		                pos: vec2.clone(entity.transform.position),
 		                cameraInfluence: 0,
 		                enabled: true,
-		                targetZoom: -1, // A zoom value of -1 means it is not set
-		                percentageZoom: 0
+		                targetZoom: 0.75, // A zoom value of -1 means it is not set
+		                //percentageZoom: 0
 		             })
 		        }
 
