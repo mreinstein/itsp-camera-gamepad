@@ -31,8 +31,9 @@ for (let i = 0; i < numSticks; i++)
 
 const lStickCameraInfluence = 1 // we are going to move the camera based of the velocity of the camera target
 
-// TODO: why does multiplying right stick camera influence by 24 cause the aim influence to work correctly?
-//       without this scaling, aiming influence doesn't seem to work
+// in Ryan's original script rStickCameraInfluence was set to 6.
+// this doesn't work in this particular implementation. I think it's due to this implementing it's own velocity/physics differently
+// from however ITSP does it. multiplying by 24 feels a lot better.
 const rStickCameraInfluence = 6 * 24  // we need to weight the amount we use for right stick influence vs velocity influence
 const toSmartCamZoomSpeed = 0.35 // this is how fast the camera will change it's zoom
 
