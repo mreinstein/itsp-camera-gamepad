@@ -95,10 +95,8 @@ export default function updateSmartCamera () {
                 // if the poi doesn't have a zoom set it should use the current zoom.  A zoom value of -1 means it is not set.
                 if (currPOI.targetZoom === -1)
                     currentPOIZoom += globals.camera.zoom
-                else {
-                    const amt = lerp(globals.camera.ambientZoom, currPOI.targetZoom, currPOI.cameraInfluence)
-                    currentPOIZoom += amt //(currPOI.targetZoom)// * currPOI.cameraInfluence) //currPOI.percentageZoom
-                }
+                else
+                    currentPOIZoom += lerp(globals.camera.ambientZoom, currPOI.targetZoom, currPOI.cameraInfluence)
 
                 poiCount++
             }
@@ -136,9 +134,8 @@ export default function updateSmartCamera () {
         //if (UtilLib.withinThreshold( getCameraZoom(),CameraLib.ambientZoom,0.1) == false)
         //    CameraLib.interpolateCameraZoom(CameraLib.newZoom,toSmartCamZoomSpeed* cameraZoomSmoothedVal) // if no POI's go to the ambient zoom
 
-        if (Math.abs(globals.camera.zoom - globals.camera.ambientZoom) > 0.01) {
+        if (Math.abs(globals.camera.zoom - globals.camera.ambientZoom) > 0.01)
             globals.camera.zoom = lerp(globals.camera.zoom, globals.camera.ambientZoom, toSmartCamZoomSpeed * cameraZoomSmoothedVal)
-        }
     }
     
     // this is how we slowly move to the point of interest position, instead of snapping immediately to it.
